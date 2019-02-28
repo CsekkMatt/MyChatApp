@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".StartActivity">
+
+
+    <TextView
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="199dp"
+        android:text="@string/start_activity"
+        android:textSize="35sp"
+        android:textColor="#fff"
+        app:fontFamily="@font/roboto_mono_italic" />
+
+    <Button
+        android:id="@+id/start_reg_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/loginbtn"
+        android:layout_marginBottom="-70dp"
+        android:layout_centerHorizontal="true"
+
+        android:background="@color/common_google_signin_btn_text_dark_default"
+        android:text="@string/register_new_user" />
+
+    <Button
+        android:id="@+id/loginbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/start"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-250dp"
+        android:background="@color/colorAccent"
+        android:text="@string/already_have_account" />
+
+
+</RelativeLayout>

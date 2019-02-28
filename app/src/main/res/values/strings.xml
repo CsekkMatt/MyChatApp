@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">MyChatApp</string>
+    <string name="start_activity">Start Activity</string>
+    <string name="need_a_new_account">Need a new account</string>
+    <string name="start1_activity">Start1 Activity!</string>
+    <string name="display_name">Display Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="create_new_account">Create new Account</string>
+    <string name="create_a_new_account">Create a new Account</string>
+    <string name="home">HOME!</string>
+    <string name="log_out">Log out</string>
+    <string name="Log_out">Log Out</string>
+    <string name="register_new_user">Register new User</string>
+    <string name="already_have_account">ALREADY HAVE ACCOUNT</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_to_request_page">Welcome To Request Page</string>
+    <string name="friends_page">Friends Page</string>
+    <string name="friends_fragment">Friends fragment</string>
+    <string name="button">Button</string>
+    <string name="hi_there_i_m_just_using_mychat_string_app_name">Hi there, I\'m just using Mychat @string/app_name</string>
+    <string name="hi_there_i_m_just_using_mychat_app">Hi there,I\'m just using Mychat app.</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="change_image">Change Image</string>
+    <string name="change_status">Change Status</string>
+    <string name="current_user_status">Current User Status</string>
+    <string name="todo">TODO</string>
+    <string name="total_friends">Total Friends</string>
+    <string name="send_friend_request">SEND FRIEND REQUEST</string>
+    <string name="profile_display_name">profile_display_name</string>
+    <string name="Sign_in">sign_in</string>
+    <string name="decline_friend_request">Decline Friend Request</string>
+    \
+</resources>
