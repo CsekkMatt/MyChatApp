@@ -7,8 +7,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/single_message_image_layout"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:src="@drawable/defaultprof"/>
 
     <TextView
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/single_message_display_name"
         android:layout_marginLeft="15dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="2dp"
         android:text="Display Name"
         android:layout_alignTop="@+id/single_message_image_layout"
         android:layout_toRightOf="@+id/single_message_image_layout"
@@ -36,8 +36,9 @@
         android:id="@+id/single_message_text_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/single_message_image_layout"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
+        android:layout_below="@id/single_message_display_name"
         android:layout_toRightOf="@+id/single_message_image_layout"
         android:background="@drawable/message_text_background"
         android:padding="5dp"

@@ -32,7 +32,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     private List<Messages> messagesList;
     private FirebaseAuth mAuth;
     private DatabaseReference mUserDatabase;
-    private Context context;
 
 
 
@@ -77,17 +76,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public void onBindViewHolder(@NonNull final MessageViewHolder messageViewHolder, int i) {
         mAuth = FirebaseAuth.getInstance();
         String current_user_id = mAuth.getCurrentUser().getUid();
-        Messages c = messagesList.get(i);
+        final Messages c = messagesList.get(i);
         final String from_user = c.getFrom();
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(from_user);
         mUserDatabase.keepSynced(true);
 
-        Log.d("ALMA",from_user);
 
-        //Megnezzuk,hogy ha az uzenet tolunk van akkor masik layoutot hasznaljunk s ha nem akkor is.
+        //Check the message sender.And change layout design.
         if(from_user.equals(current_user_id)){
-            messageViewHolder.messageText.setBackgroundColor(Color.WHITE);
-            messageViewHolder.messageText.setTextColor(Color.BLACK);
+            messageViewHolder.messageText.setBackgroundResource(R.drawable.sened_message_text_background);
+            messageViewHolder.messageText.setTextColor(Color.WHITE);
             messageViewHolder.displayNameText.setTextColor(Color.BLACK);
             messageViewHolder.mprofileImage.setVisibility(View.VISIBLE);
         }else{
@@ -96,17 +94,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             messageViewHolder.messageText.setTextColor(Color.WHITE);
             messageViewHolder.displayNameText.setTextColor(Color.BLACK);
             messageViewHolder.mprofileImage.setVisibility(View.VISIBLE);
-
-
-
         }
-        messageViewHolder.messageText.setText(c.getMessage());
+
 
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String from_user_image = dataSnapshot.child("image").getValue().toString();
                 String from_user_name = dataSnapshot.child("name").getValue().toString();
+                messageViewHolder.messageText.setText(c.getMessage());
                 messageViewHolder.displayNameText.setText(from_user_name);
                 Picasso.with(messageViewHolder.itemView.getContext()).load(from_user_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.defaultprof).into(messageViewHolder.mprofileImage);
             }
@@ -116,9 +112,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
             }
         });
-
-
-
 
     }
 

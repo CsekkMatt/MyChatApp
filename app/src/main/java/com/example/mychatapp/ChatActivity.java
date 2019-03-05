@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
@@ -53,12 +54,20 @@ public class ChatActivity extends AppCompatActivity {
     private EditText mChatMessageView;
 
     private RecyclerView mMessagesList;
+    private SwipeRefreshLayout mRefreshLayout;
 
     private final List<Messages> messagesList = new ArrayList<>();
     private LinearLayoutManager mLinearLayout;
     private MessageAdapter mAdapter;
 
+    private static final int TOTAL_ITEMS_TO_LOAD = 10;
+    private int mCurrentPage = 1;
 
+    //new solution
+
+    private int itemPos = 0;
+    private String mLastKey = "";
+    private String mPrevKey = "";
 
     private Toolbar mChatToolbar;
 
@@ -105,6 +114,7 @@ public class ChatActivity extends AppCompatActivity {
         mAdapter = new MessageAdapter(messagesList);
 
         mMessagesList = (RecyclerView)findViewById(R.id.messages_list);
+        mRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.message_swipe_layout);
         mLinearLayout = new LinearLayoutManager(this);
 
 
@@ -180,6 +190,17 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                mCurrentPage++;
+                itemPos = 0;
+                loadMoreMessages();
+
+            }
+        });
+
 
 
 
@@ -187,14 +208,87 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-    private void loadMessages() {
-        mRootRef.child("messages").child(mCurrentUserId).child(mChatUserId).addChildEventListener(new ChildEventListener() {
+    private void loadMoreMessages() {
+        DatabaseReference messageRef = mRootRef.child("messages").child(mCurrentUserId).child(mChatUserId);
+
+        //how many items load once.
+        Query messageQuery =messageRef.orderByKey().endAt(mLastKey).limitToLast(10);
+        messageQuery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Messages message = dataSnapshot.getValue(Messages.class);
 
+                messagesList.add(itemPos++,message);
+
+                if(itemPos == 1){
+                    String messageKey = dataSnapshot.getKey();
+                    mLastKey = messageKey;
+                }
+
+
+                mAdapter.notifyDataSetChanged();
+
+                //mMessagesList.scrollToPosition(messagesList.size()- 1);
+
+                mRefreshLayout.setRefreshing(false);
+
+                mLinearLayout.scrollToPositionWithOffset(10,0);
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void loadMessages() {
+
+        DatabaseReference messageRef = mRootRef.child("messages").child(mCurrentUserId).child(mChatUserId);
+
+        //how many items load once.
+        Query messageQuery =messageRef.limitToLast(mCurrentPage * TOTAL_ITEMS_TO_LOAD);
+
+        messageQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Messages message = dataSnapshot.getValue(Messages.class);
+                String messageKey = dataSnapshot.getKey();
+
+                itemPos ++ ;
+
+                if(itemPos == 1){
+                    mLastKey = messageKey;
+                    mPrevKey = messageKey;
+
+                }
+
+                Log.d("TOTALKEYS","Last key" + mLastKey + " | Prev key " + mPrevKey + "| messageKey" + messageKey);
+
                 messagesList.add(message);
                 mAdapter.notifyDataSetChanged();
+
+                mMessagesList.scrollToPosition(messagesList.size()- 1);
+
+                mRefreshLayout.setRefreshing(false);
+
             }
 
             @Override
