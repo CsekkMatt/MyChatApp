@@ -4,12 +4,14 @@ package com.example.mychatapp;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +62,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView messageText,displayNameText;
         public CircleImageView mprofileImage;
+        public ImageView messageImage;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,6 +70,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             messageText = (TextView)itemView.findViewById(R.id.single_message_text_layout);
             displayNameText = (TextView)itemView.findViewById(R.id.single_message_display_name);
             mprofileImage = (CircleImageView)itemView.findViewById(R.id.single_message_image_layout);
+            messageImage = (ImageView)itemView.findViewById(R.id.single_message_text_image_layout);
 
         }
     }
@@ -78,6 +82,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         String current_user_id = mAuth.getCurrentUser().getUid();
         final Messages c = messagesList.get(i);
         final String from_user = c.getFrom();
+        final String message_type = c.getType();
+
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(from_user);
         mUserDatabase.keepSynced(true);
 
@@ -112,6 +118,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
             }
         });
+
+        if(message_type.equals("text")){
+            messageViewHolder.messageText.setText(c.getMessage());
+            messageViewHolder.messageImage.setVisibility(View.INVISIBLE);
+        }
+        else if(message_type.equals("image")){
+            messageViewHolder.messageText.setVisibility(View.INVISIBLE);
+//            Toast.makeText(messageViewHolder.itemView.getContext(),c.getMessage(),Toast.LENGTH_SHORT).show();
+            Picasso.with(messageViewHolder.messageImage.getContext()).load(c.getMessage()).placeholder(R.drawable.defaultprof).into(messageViewHolder.messageImage);
+        }
+
 
     }
 
