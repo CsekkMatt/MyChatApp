@@ -15,6 +15,9 @@ import android.widget.TableLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    private DatabaseReference mUserRef;
+
     private TabLayout mTabLayout;
 
     @Override
@@ -43,7 +49,15 @@ public class MainActivity extends AppCompatActivity {
         //Tabs
         mViewPager = (ViewPager)findViewById(R.id.main_Pager);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        if (mAuth.getCurrentUser() != null) {
+
+
+            mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+
+        }
+
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
         mTabLayout = (TabLayout)findViewById(R.id.main_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
     }
@@ -56,6 +70,20 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser getCurentUser = mAuth.getCurrentUser();
         if (getCurentUser == null) {
             sendToStart();
+        }else{
+            mUserRef.child("online").setValue("true");
+        }
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        FirebaseUser getCurentUser = mAuth.getCurrentUser();
+        if(getCurentUser != null) {
+            //User status set, Offline.
+            mUserRef.child("online").setValue(ServerValue.TIMESTAMP);
         }
     }
 

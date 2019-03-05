@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:id="@+id/message_single_layout"
+    >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/single_message_image_layout"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/defaultprof"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/single_message_display_name"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="5dp"
+        android:text="Display Name"
+        android:layout_alignTop="@+id/single_message_image_layout"
+        android:layout_toRightOf="@+id/single_message_image_layout"
+
+        />
+
+    <TextView
+        android:id="@+id/single_message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/single_message_display_name"
+        android:textColor="#000"
+        android:text="00:00"/>
+
+    <TextView
+        android:id="@+id/single_message_text_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/single_message_image_layout"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/single_message_image_layout"
+        android:background="@drawable/message_text_background"
+        android:padding="5dp"
+        android:text="ALMA"
+        android:textColor="#fff" />
+
+</RelativeLayout>

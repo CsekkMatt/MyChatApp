@@ -14,13 +14,13 @@ class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                RequestFragment requestFragment = new RequestFragment();
-                return requestFragment;
+                RequestsFragment requestsFragment = new RequestsFragment();
+                return requestsFragment;
             case 1:
-                RequestFragment chatFragment = new RequestFragment();
-                return chatFragment;
+                ChatsFragment chatsFragment = new ChatsFragment();
+                return chatsFragment;
             case 2:
-                RequestFragment friendsFragment = new RequestFragment();
+                FriendsFragment friendsFragment = new FriendsFragment();
                 return friendsFragment;
 
             default:return null;

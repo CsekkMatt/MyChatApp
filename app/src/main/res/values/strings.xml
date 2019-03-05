@@ -32,5 +32,10 @@
     <string name="profile_display_name">profile_display_name</string>
     <string name="Sign_in">sign_in</string>
     <string name="decline_friend_request">Decline Friend Request</string>
+    <string name="chat_page">welcome_to_chat_page</string>
+    <string name="welcome_to_chat_page">Welcome to chat page</string>
+    <string name="user_single_display_name">Display Name</string>
+    <string name="user_single_status">STATUS</string>
+    <string name="online_offline">Online/Offline</string>
     \
 </resources>

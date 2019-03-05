@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#cccccc"
+    tools:context=".ChatActivity">
+
+    <include
+        android:id="@+id/chat_app_bar"
+        layout="@layout/app_bar_layout"></include>
+    
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/message_swipe_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/chat_linearlayout"
+        android:layout_below="@+id/chat_app_bar">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/messages_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+    
+
+
+    <LinearLayout
+        android:background="#fff"
+
+        android:id="@+id/chat_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+
+        >
+
+        <ImageButton
+            android:id="@+id/chat_add_imgbtn"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:src="@drawable/baseline_add_black_18dp" />
+
+        <EditText
+            android:id="@+id/chat_EditText"
+            android:layout_width="310dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:gravity="center_vertical"
+            android:hint="Type here..." />
+
+        <ImageButton
+            android:id="@+id/chat_send_imgbtn"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_weight="10"
+            android:src="@drawable/baseline_send_black_18dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

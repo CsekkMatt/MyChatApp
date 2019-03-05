@@ -85,6 +85,7 @@ public class ProfileActivity extends AppCompatActivity {
         mProgressDialog.show();
 
 
+        //Value Listener for UserDatabase. If something is addet to database.
         mUsersDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -217,7 +218,7 @@ public class ProfileActivity extends AppCompatActivity {
                 //-----------------REQUEST RECEIVED STATE------------------------
 
                 if(mCurrent_state.equals("req_received")){
-                    final String currentDate = DateFormat.getDateInstance().format(new Date());
+                    final String currentDate = DateFormat.getDateTimeInstance().format(new Date());
 
                     Map friendsMap = new HashMap();
                     friendsMap.put("Friends/" + mCurrentUser.getUid() + "/" + user_id + "/date",currentDate);
