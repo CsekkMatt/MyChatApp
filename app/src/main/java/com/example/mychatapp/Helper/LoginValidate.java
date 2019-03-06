@@ -1,4 +1,4 @@
-package com.example.mychatapp;
+package com.example.mychatapp.Helper;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
@@ -6,7 +6,7 @@ import android.util.Patterns;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Helper {
+public class LoginValidate {
 
     //Log out the actual user.
     public void LogOut(FirebaseAuth mAuth) {

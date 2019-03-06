@@ -4,6 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.mychatapp.Fragments.ChatsFragment;
+import com.example.mychatapp.Fragments.FriendsFragment;
+import com.example.mychatapp.Fragments.RequestsFragment;
+
 class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     public SectionsPagerAdapter(FragmentManager fm) {

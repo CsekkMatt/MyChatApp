@@ -1,4 +1,4 @@
-package com.example.mychatapp;
+package com.example.mychatapp.Model;
 
 public class Users {
     public String name,image,status,thumb_image;

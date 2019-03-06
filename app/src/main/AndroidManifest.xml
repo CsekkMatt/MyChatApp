@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChatActivity"
+        <activity android:name=".Activities.ChatActivity"
             android:parentActivityName=".MainActivity"></activity>
 
         <service android:name=".FirebaseMessagingService">
@@ -22,7 +22,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ProfileActivity">
+        <activity android:name=".Activities.ProfileActivity">
             <intent-filter>
                 <action android:name="com.example.mychatapp_TARGET_NOTIFICATION" />
 
@@ -30,17 +30,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UsersActivity"
+            android:name=".Activities.UsersActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".StatusActivity"
-            android:parentActivityName=".SettingsActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".LoginActivity" />
+            android:name=".Activities.StatusActivity"
+            android:parentActivityName=".Activities.SettingsActivity" />
+        <activity android:name=".Activities.SettingsActivity" />
+        <activity android:name=".Activities.LoginActivity" />
         <activity
-            android:name=".RegisterActivity"
-            android:parentActivityName=".StartActivity" />
-        <activity android:name=".StartActivity" />
+            android:name=".Activities.RegisterActivity"
+            android:parentActivityName=".Activities.StartActivity" />
+        <activity android:name=".Activities.StartActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.mychatapp;
+package com.example.mychatapp.Fragments;
 
 
 import android.app.AlertDialog;
@@ -10,13 +10,16 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.mychatapp.Activities.ChatActivity;
+import com.example.mychatapp.Model.Friends;
+import com.example.mychatapp.Activities.ProfileActivity;
+import com.example.mychatapp.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,8 +32,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -134,12 +135,12 @@ public class FriendsFragment extends Fragment {
                                         //CLick event for each item.
                                         switch (which){
                                             case 0:
-                                                Intent profile_intent = new Intent(getContext(),ProfileActivity.class);
+                                                Intent profile_intent = new Intent(getContext(), ProfileActivity.class);
                                                 profile_intent.putExtra("user_id",list_user);
                                                 startActivity(profile_intent);
                                                 break;
                                             case 1:
-                                                Intent chat_intent = new Intent(getContext(),ChatActivity.class);
+                                                Intent chat_intent = new Intent(getContext(), ChatActivity.class);
                                                 chat_intent.putExtra("user_id",list_user);
                                                 //We can put the user name, and user picture .. for saving loading data/time in ChatActivity.
                                                 chat_intent.putExtra("user_name",user_name);

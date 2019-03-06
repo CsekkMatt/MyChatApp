@@ -1,10 +1,7 @@
-package com.example.mychatapp;
+package com.example.mychatapp.Activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.mychatapp.R;
+import com.example.mychatapp.Model.Users;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -23,12 +22,6 @@ import com.google.firebase.database.Query;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.theartofdev.edmodo.cropper.CropImage;
-
-import org.w3c.dom.Text;
-
-import java.util.Collections;
-import java.util.Comparator;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -99,7 +92,7 @@ public class UsersActivity extends AppCompatActivity {
                 holder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent profile_intent = new Intent(UsersActivity.this,ProfileActivity.class);
+                        Intent profile_intent = new Intent(UsersActivity.this, ProfileActivity.class);
                         profile_intent.putExtra("user_id",user_id);
                         startActivity(profile_intent);
                     }

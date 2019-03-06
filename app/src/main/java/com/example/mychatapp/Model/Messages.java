@@ -1,4 +1,4 @@
-package com.example.mychatapp;
+package com.example.mychatapp.Model;
 
 public class Messages {
     private String message,type,from;

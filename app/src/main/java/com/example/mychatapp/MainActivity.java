@@ -7,12 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.support.v7.widget.Toolbar;
-import android.widget.TableLayout;
 
 
+import com.example.mychatapp.Activities.SettingsActivity;
+import com.example.mychatapp.Activities.StartActivity;
+import com.example.mychatapp.Activities.UsersActivity;
+import com.example.mychatapp.Helper.LoginValidate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private FirebaseAuth mAuth;
     Button mLogout;
-    Helper helper = new Helper();
+    LoginValidate loginValidate = new LoginValidate();
 
     private ViewPager mViewPager;
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -109,17 +111,17 @@ public class MainActivity extends AppCompatActivity {
          super.onOptionsItemSelected(item);
 
          if(item.getItemId() == R.id.logout_btn){
-             helper.LogOut(mAuth);
+             loginValidate.LogOut(mAuth);
              sendToStart();
          }
 
          if(item.getItemId() == R.id.main_settings_btn){
-             Intent settingsIntent = new Intent(MainActivity.this,SettingsActivity.class);
+             Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
              startActivity(settingsIntent);
          }
 
          if(item.getItemId() == R.id.main_all){
-             Intent allusersIntent = new Intent(MainActivity.this,UsersActivity.class);
+             Intent allusersIntent = new Intent(MainActivity.this, UsersActivity.class);
              startActivity(allusersIntent);
          }
 

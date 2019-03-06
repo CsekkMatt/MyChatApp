@@ -2,29 +2,23 @@ package com.example.mychatapp;
 
 ;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.mychatapp.Model.Messages;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -32,10 +26,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder>{
     private List<Messages> messagesList;
-    private FirebaseAuth mAuth;
-    private DatabaseReference mUserDatabase;
-
-
 
 
     public MessageAdapter(List<Messages> messagesList) {
@@ -78,14 +68,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public void onBindViewHolder(@NonNull final MessageViewHolder messageViewHolder, int i) {
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String current_user_id = mAuth.getCurrentUser().getUid();
         final Messages c = messagesList.get(i);
         final String from_user = c.getFrom();
         final String message_type = c.getType();
 
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(from_user);
-        mUserDatabase.keepSynced(true);
+        DatabaseReference mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(from_user);
+        //mUserDatabase.keepSynced(true);
 
 
         //Check the message sender.And change layout design.
@@ -106,11 +96,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String from_user_image = dataSnapshot.child("image").getValue().toString();
+                String from_user_image = dataSnapshot.child("thumb_image").getValue().toString();
                 String from_user_name = dataSnapshot.child("name").getValue().toString();
-                messageViewHolder.messageText.setText(c.getMessage());
+
                 messageViewHolder.displayNameText.setText(from_user_name);
-                Picasso.with(messageViewHolder.itemView.getContext()).load(from_user_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.defaultprof).into(messageViewHolder.mprofileImage);
+
+                Picasso.with(messageViewHolder.mprofileImage.getContext()).load(from_user_image)
+                        .placeholder(R.drawable.defaultprof)
+                        .into(messageViewHolder.mprofileImage);
             }
 
             @Override
@@ -119,15 +112,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }
         });
 
-        if(message_type.equals("text")){
+        if(message_type.equals("text")) {
+
             messageViewHolder.messageText.setText(c.getMessage());
             messageViewHolder.messageImage.setVisibility(View.INVISIBLE);
-        }
-        else if(message_type.equals("image")){
+
+
+        } if(message_type.equals("image")){
+
             messageViewHolder.messageText.setVisibility(View.INVISIBLE);
-//            Toast.makeText(messageViewHolder.itemView.getContext(),c.getMessage(),Toast.LENGTH_SHORT).show();
-            Picasso.with(messageViewHolder.messageImage.getContext()).load(c.getMessage()).placeholder(R.drawable.defaultprof).into(messageViewHolder.messageImage);
+            Picasso.with(messageViewHolder.mprofileImage.getContext()).load(c.getMessage())
+                    .resize(300,300)
+                    .placeholder(R.drawable.defaultprof).into(messageViewHolder.messageImage);
+
         }
+
 
 
     }

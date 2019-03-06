@@ -1,4 +1,4 @@
-package com.example.mychatapp;
+package com.example.mychatapp.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.example.mychatapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -32,14 +32,10 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
-import org.w3c.dom.Text;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
@@ -125,7 +121,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String status_value  = mStatus.getText().toString();
-                Intent statusIntent = new Intent(SettingsActivity.this,StatusActivity.class);
+                Intent statusIntent = new Intent(SettingsActivity.this, StatusActivity.class);
                 statusIntent.putExtra("status_value",status_value);
                 startActivity(statusIntent);
             }
