@@ -95,8 +95,6 @@ public class ChatsFragment extends Fragment {
 
 
 
-
-
         return mMainView;
     }
 
@@ -107,16 +105,18 @@ public class ChatsFragment extends Fragment {
 
     }
 
+
+
     private void startListening() {
 
-        Query conversationQuery = mConvDatabase.orderByChild("timestamp");
+            Query conversationQuery = mConvDatabase.orderByChild("timestamp");
 
-        FirebaseRecyclerOptions<Conversation> options =
-                new FirebaseRecyclerOptions.Builder<Conversation>()
-                .setQuery(conversationQuery,Conversation.class).build();
+            FirebaseRecyclerOptions<Conversation> options =
+                    new FirebaseRecyclerOptions.Builder<Conversation>()
+                            .setQuery(conversationQuery,Conversation.class).build();
 
 
-        FirebaseRecyclerAdapter<Conversation,ConversationViewHolder> conversationViewHolderRecyclerAdapter = new FirebaseRecyclerAdapter<Conversation, ConversationViewHolder>(options) {
+            FirebaseRecyclerAdapter<Conversation,ConversationViewHolder> conversationViewHolderRecyclerAdapter = new FirebaseRecyclerAdapter<Conversation, ConversationViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final ConversationViewHolder holder, int position, @NonNull final Conversation model) {
 
@@ -143,6 +143,18 @@ public class ChatsFragment extends Fragment {
 
                     @Override
                     public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                mConvDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     }
 
@@ -219,7 +231,7 @@ public class ChatsFragment extends Fragment {
          public void setMessage(String message,boolean isSeen){
 
             TextView userStatusView = (TextView)mView.findViewById(R.id.users_single_status);
-             //Check if the message is a picture or not.
+             //Check if the message is a picture or no.
             if(message.toLowerCase().contains("firebasestorage.googleapis.com")){
                  userStatusView.setText("Photo");
              }else{

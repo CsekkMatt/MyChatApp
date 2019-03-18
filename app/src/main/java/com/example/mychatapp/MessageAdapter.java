@@ -2,7 +2,6 @@ package com.example.mychatapp;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         String current_user_id = mAuth.getCurrentUser().getUid();
 
+        private static final int VIEW_TYPE_MESSAGE_SENT = 1;
+        private static final int VIEW_TYPE_MESSAGE_RECEIVED = 0;
+
         boolean isMyMessage;
         int messagePos;
 
@@ -41,11 +43,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
         public int getItemViewType(int position) {
             Messages chat = this.messagesList.get(position);
             String from_user = chat.getFrom();
-            Log.i("From", from_user);
             if(from_user.equals(current_user_id)){
-                return 0;
+                return VIEW_TYPE_MESSAGE_SENT;
             }else{
-                return 1;
+                return VIEW_TYPE_MESSAGE_RECEIVED;
             }
         }
 
@@ -54,19 +55,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.my_message,viewGroup,false);
-        Log.i("viewpos",Integer.toString(i));
             switch (i) {
                 case 1:
                 isMyMessage = true;
                 v = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.my_message, viewGroup, false);
-                Log.i("Message", "hanyszorhivodikmeg");
                 break;
                 case 0:
                 isMyMessage = false;
                 v = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.message_single_layout, viewGroup, false);
-                Log.i("Message", "false tul hamar");
             }
 
 
@@ -81,20 +79,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
     public class MessageViewHolder extends RecyclerView.ViewHolder {
-        public TextView messageText,displayNameText,messageTime;
+        public TextView myMessageText,messageText,displayNameText,messageTime;
         public CircleImageView mprofileImage;
         public ImageView messageImage;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
 
-                if(isMyMessage == true){
-                messageText = (TextView)itemView.findViewById(R.id.my_message_body);
-                Log.i("Message","Marad a sajat uzenet layout.");
-            }else{
-                messageText = (TextView)itemView.findViewById(R.id.single_message_text_layout);
-                Log.i("Message","Jon/Marad a fogado uzenet layout.");
-            }
+            myMessageText = (TextView)itemView.findViewById(R.id.my_message_body);
+            messageText = (TextView)itemView.findViewById(R.id.single_message_text_layout);
             messageTime = (TextView)itemView.findViewById(R.id.single_message_time);
             displayNameText = (TextView)itemView.findViewById(R.id.single_message_display_name);
             mprofileImage = (CircleImageView)itemView.findViewById(R.id.single_message_image_layout);
@@ -109,65 +102,58 @@ import de.hdodenhof.circleimageview.CircleImageView;
         String current_user_id = mAuth.getCurrentUser().getUid();
         messagePos = i;
         final Messages c = messagesList.get(messagePos);
-        Log.i("BindMessages",c.getMessage() + " " + Integer.toString(messagePos)) ;
         final String from_user = c.getFrom();
         final String message_type = c.getType();
         final long time = c.getTime();
 
-
-
-
         String message_time = GetTimeAgo.getMessageTime(time);
-
-
         DatabaseReference mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(from_user);
         //mUserDatabase.keepSynced(true);
 
+        //check what viewtype need to be used
+        switch (messageViewHolder.getItemViewType()){
+            case VIEW_TYPE_MESSAGE_SENT:
+                messageViewHolder.myMessageText.setBackgroundResource(R.drawable.my_message);
+                messageViewHolder.myMessageText.setTextColor(Color.WHITE);
+                break;
+            case VIEW_TYPE_MESSAGE_RECEIVED:
+                messageViewHolder.messageText.setBackgroundResource(R.drawable.message_text_background);
+                messageViewHolder.messageText.setTextColor(Color.WHITE);
+                messageViewHolder.displayNameText.setTextColor(Color.BLACK);
+                messageViewHolder.mprofileImage.setVisibility(View.VISIBLE);
 
-        //Check the message sender.And change layout design.
-        if(isMyMessage){
-            messageViewHolder.messageText.setBackgroundResource(R.drawable.my_message);
-            messageViewHolder.messageText.setTextColor(Color.WHITE);
-            //messageViewHolder.displayNameText.setTextColor(Color.BLACK);
-           // messageViewHolder.mprofileImage.setVisibility(View.VISIBLE);
-        }else{
-            messageViewHolder.messageText.setBackgroundResource(R.drawable.message_text_background);
-            messageViewHolder.messageText.setTextColor(Color.WHITE);
-            messageViewHolder.displayNameText.setTextColor(Color.BLACK);
-            messageViewHolder.mprofileImage.setVisibility(View.VISIBLE);
+                mUserDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String from_user_image = dataSnapshot.child("thumb_image").getValue().toString();
+                        String from_user_name = dataSnapshot.child("name").getValue().toString();
 
-            mUserDatabase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String from_user_image = dataSnapshot.child("thumb_image").getValue().toString();
-                    String from_user_name = dataSnapshot.child("name").getValue().toString();
+                        messageViewHolder.displayNameText.setText(from_user_name);
 
-                    messageViewHolder.displayNameText.setText(from_user_name);
+                        Picasso.with(messageViewHolder.mprofileImage.getContext()).load(from_user_image)
+                                .placeholder(R.drawable.defaultprof)
+                                .into(messageViewHolder.mprofileImage);
+                    }
 
-                    Picasso.with(messageViewHolder.mprofileImage.getContext()).load(from_user_image)
-                            .placeholder(R.drawable.defaultprof)
-                            .into(messageViewHolder.mprofileImage);
-                }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
 
-                }
-            });
         }
 
 
         //Set message or image.
-
-        if(isMyMessage){
+        if(messageViewHolder.getItemViewType() == VIEW_TYPE_MESSAGE_SENT){
             if(message_type.equals("text")) {
 
-                messageViewHolder.messageText.setText(c.getMessage());
+                messageViewHolder.myMessageText.setText(c.getMessage());
 
 
             } if(message_type.equals("image")){
 
-                messageViewHolder.messageText.setVisibility(View.INVISIBLE);
+                messageViewHolder.myMessageText.setVisibility(View.INVISIBLE);
                 Picasso.with(messageViewHolder.mprofileImage.getContext()).load(c.getMessage())
                         .resize(800,800)
                         .placeholder(R.drawable.defaultprof).into(messageViewHolder.messageImage);
@@ -192,11 +178,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
                         .placeholder(R.drawable.defaultprof).into(messageViewHolder.messageImage);
 
             }
-
         }
-
-
-
     }
 
 

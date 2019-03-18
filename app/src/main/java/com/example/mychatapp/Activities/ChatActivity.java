@@ -263,7 +263,6 @@ public class ChatActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri image) {
                             String download_url = image.toString();
-                            Toast.makeText(ChatActivity.this,download_url,Toast.LENGTH_SHORT).show();
 
                             Map messageMap = new HashMap();
                             messageMap.put("message",download_url);
@@ -389,12 +388,11 @@ public class ChatActivity extends AppCompatActivity {
 
 
                 }
-                Toast.makeText(ChatActivity.this,mLastKey,Toast.LENGTH_SHORT).show();
 
                 messagesList.add(message);
                 mAdapter.notifyDataSetChanged();
 
-                mMessagesList.scrollToPosition(messagesList.size() - 1);
+                mMessagesList.scrollToPosition(messagesList.size() -2);
 
                 mRefreshLayout.setRefreshing(false);
 
