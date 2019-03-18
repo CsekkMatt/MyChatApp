@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -54,12 +55,20 @@ public class ProfileActivity extends AppCompatActivity {
 
         //user_id. The other user ID. Not the actual user.
         final String user_id =  getIntent().getStringExtra("user_id");
+
+        mRootRef = FirebaseDatabase.getInstance().getReference();
+
+        if(user_id != null){
+            Log.w("USER",user_id);
+
+        }else{
+            Log.w("USERNULL","Null user_id");
+        }
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
         mFriendReqDatabase = FirebaseDatabase.getInstance().getReference().child("Friend_req");
         mFirendDatabase = FirebaseDatabase.getInstance().getReference().child("Friends");
         mNotificationDatabase = FirebaseDatabase.getInstance().getReference().child("notifications");
 
-        mRootRef = FirebaseDatabase.getInstance().getReference();
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         //Initalize components
@@ -182,10 +191,11 @@ public class ProfileActivity extends AppCompatActivity {
                         public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                             if(databaseError != null){
                                 Toast.makeText(ProfileActivity.this,"Error in sending request",Toast.LENGTH_SHORT).show();
+                            }else {
+                                mCurrent_state = "req_sent";
+                                mProfileSendReqBtn.setText("Cancel Firend Request");
                             }
                             mProfileSendReqBtn.setEnabled(true);
-                            mCurrent_state = "req_sent";
-                            mProfileSendReqBtn.setText("Cancel Firend Request");
                         }
                     });
                 }
@@ -243,7 +253,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                 }
 
-                ////////// ---------------- UNFRIEND ------------------
+                ////////// ---------------- UNFRIEND------------------
                 if(mCurrent_state.equals("friends")){
                     Map unfriendMap = new HashMap();
                     unfriendMap.put("Friends/" + mCurrentUser.getUid() + "/" + user_id,null);

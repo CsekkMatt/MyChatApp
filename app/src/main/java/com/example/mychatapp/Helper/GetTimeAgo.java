@@ -3,6 +3,8 @@ package com.example.mychatapp.Helper;
 import android.app.Application;
 import android.content.Context;
 
+import java.util.Date;
+
 public class GetTimeAgo extends Application {
 
     /*
@@ -26,6 +28,24 @@ public class GetTimeAgo extends Application {
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
+
+    public static String getMessageTime(long l){
+
+        String message_time;
+
+        Date date = new Date(l);
+        if(date.getSeconds() < 10 && date.getHours() < 10){
+            message_time = "0" + date.getHours() + ":0" + date.getSeconds();
+        }else if(date.getSeconds() < 10 && date.getHours() >= 10){
+            message_time = date.getHours() + ":0" + date.getSeconds();
+        }else if(date.getSeconds() >= 10 && date.getHours() < 10){
+            message_time = "0" + date.getHours() + ":" + date.getSeconds();
+        } else {
+            message_time = date.getHours() + ":" + date.getSeconds();
+        }
+
+        return message_time;
+    }
 
     public static String getTimeAgo(long time, Context ctx) {
         if (time < 1000000000000L) {

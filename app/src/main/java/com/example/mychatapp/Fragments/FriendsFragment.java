@@ -91,7 +91,7 @@ public class FriendsFragment extends Fragment {
     private void startListening() {
 
         Query query = mFriendsDatabase
-                .limitToLast(50);
+                .limitToLast(10);
 
         FirebaseRecyclerOptions<Friends> options =
                 new FirebaseRecyclerOptions.Builder<Friends>()

@@ -38,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -162,7 +163,7 @@ public class ChatActivity extends AppCompatActivity {
 
                     mLastSeenView.setText(lastSeenTime);
                 }
-                Picasso.with(ChatActivity.this).load(image).into(mProfileImage);
+                Picasso.with(ChatActivity.this).load(image).networkPolicy(NetworkPolicy.OFFLINE).into(mProfileImage);
             }
 
             @Override
@@ -302,7 +303,7 @@ public class ChatActivity extends AppCompatActivity {
 
         DatabaseReference messageRef = mRootRef.child("messages").child(mCurrentUserId).child(mChatUserId);
 
-        Query messageQuery = messageRef.orderByKey().endAt(mLastKey).limitToLast(10);
+        Query messageQuery = messageRef.orderByKey().endAt(mLastKey).limitToLast(TOTAL_ITEMS_TO_LOAD);
 
         messageQuery.addChildEventListener(new ChildEventListener() {
             @Override
@@ -336,7 +337,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 mRefreshLayout.setRefreshing(false);
 
-                mLinearLayout.scrollToPositionWithOffset(10, 0);
+                mLinearLayout.scrollToPositionWithOffset(itemPos, 0);
 
             }
 
@@ -363,7 +364,6 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-
     private void loadMessages() {
 
         DatabaseReference messageRef = mRootRef.child("messages").child(mCurrentUserId).child(mChatUserId);
@@ -379,6 +379,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 itemPos++;
 
+
                 if(itemPos == 1){
 
                     String messageKey = dataSnapshot.getKey();
@@ -386,7 +387,9 @@ public class ChatActivity extends AppCompatActivity {
                     mLastKey = messageKey;
                     mPrevKey = messageKey;
 
+
                 }
+                Toast.makeText(ChatActivity.this,mLastKey,Toast.LENGTH_SHORT).show();
 
                 messagesList.add(message);
                 mAdapter.notifyDataSetChanged();
@@ -419,6 +422,7 @@ public class ChatActivity extends AppCompatActivity {
         });
 
     }
+
 
 
 
