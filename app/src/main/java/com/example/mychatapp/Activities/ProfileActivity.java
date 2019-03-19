@@ -58,12 +58,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         mRootRef = FirebaseDatabase.getInstance().getReference();
 
-        if(user_id != null){
-            Log.w("USER",user_id);
-
-        }else{
-            Log.w("USERNULL","Null user_id");
-        }
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
         mFriendReqDatabase = FirebaseDatabase.getInstance().getReference().child("Friend_req");
         mFirendDatabase = FirebaseDatabase.getInstance().getReference().child("Friends");

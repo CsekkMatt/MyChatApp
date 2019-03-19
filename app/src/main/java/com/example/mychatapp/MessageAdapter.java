@@ -1,5 +1,6 @@
 package com.example.mychatapp;
 import android.graphics.Color;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -81,7 +83,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
     public class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView myMessageText,messageText,displayNameText,messageTime;
         public CircleImageView mprofileImage;
-        public ImageView messageImage;
+        public ImageView messageImage,myMessageImage;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,6 +93,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
             messageTime = (TextView)itemView.findViewById(R.id.single_message_time);
             displayNameText = (TextView)itemView.findViewById(R.id.single_message_display_name);
             mprofileImage = (CircleImageView)itemView.findViewById(R.id.single_message_image_layout);
+            myMessageImage = (ImageView)itemView.findViewById(R.id.my_message_text_image_layout);
             messageImage = (ImageView)itemView.findViewById(R.id.single_message_text_image_layout);
 
         }
@@ -154,9 +157,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
             } if(message_type.equals("image")){
 
                 messageViewHolder.myMessageText.setVisibility(View.INVISIBLE);
-                Picasso.with(messageViewHolder.mprofileImage.getContext()).load(c.getMessage())
+                Picasso.with(messageViewHolder.myMessageText.getContext()).load(c.getMessage())
                         .resize(800,800)
-                        .placeholder(R.drawable.defaultprof).into(messageViewHolder.messageImage);
+                        .placeholder(R.drawable.defaultprof).networkPolicy(NetworkPolicy.OFFLINE).into(messageViewHolder.myMessageImage);
 
             }
         }else {

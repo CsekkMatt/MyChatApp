@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/friend_request_layout">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/single_request_image"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/defaultprof"
+        />
+    <TextView
+        android:id="@+id/single_request_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Display Name"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        />
+
+    <Button
+        android:id="@+id/single_request_accept_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accept"
+        android:layout_toRightOf="@+id/single_request_image"
+        android:layout_below="@+id/single_request_name"
+        android:layout_marginLeft="60dp"
+
+        />
+    <Button
+        android:id="@+id/single_request_decline_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Decline"
+        android:layout_toRightOf="@+id/single_request_accept_btn"
+        android:layout_below="@+id/single_request_name"
+        android:layout_marginLeft="30dp"
+        />
+
+</RelativeLayout>

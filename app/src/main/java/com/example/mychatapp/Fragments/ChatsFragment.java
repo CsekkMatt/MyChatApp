@@ -94,7 +94,6 @@ public class ChatsFragment extends Fragment {
 
 
 
-
         return mMainView;
     }
 
@@ -116,7 +115,7 @@ public class ChatsFragment extends Fragment {
                             .setQuery(conversationQuery,Conversation.class).build();
 
 
-            FirebaseRecyclerAdapter<Conversation,ConversationViewHolder> conversationViewHolderRecyclerAdapter = new FirebaseRecyclerAdapter<Conversation, ConversationViewHolder>(options) {
+            final FirebaseRecyclerAdapter<Conversation,ConversationViewHolder> conversationViewHolderRecyclerAdapter = new FirebaseRecyclerAdapter<Conversation, ConversationViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final ConversationViewHolder holder, int position, @NonNull final Conversation model) {
 
@@ -189,6 +188,7 @@ public class ChatsFragment extends Fragment {
 
                                 }
                             });
+
                         }catch(Exception e){
                             Log.w("ALMA","Error");
                         }
@@ -216,6 +216,7 @@ public class ChatsFragment extends Fragment {
         };
         mConversationList.setAdapter(conversationViewHolderRecyclerAdapter);
         conversationViewHolderRecyclerAdapter.startListening();
+
 
     }
 

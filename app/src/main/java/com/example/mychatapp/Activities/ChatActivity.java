@@ -142,6 +142,8 @@ public class ChatActivity extends AppCompatActivity {
         mImageStorage = FirebaseStorage.getInstance().getReference();
 
         mRootRef.child("Chat").child(mCurrentUserId).child(mChatUserId).child("seen").setValue(true);
+        mRootRef.child("Chat").child(mChatUserId).child(mCurrentUserId).child("seen").setValue(true);
+
 
         loadMessages();
 
@@ -180,13 +182,17 @@ public class ChatActivity extends AppCompatActivity {
                     chatAddMap.put("seen",false);
                     chatAddMap.put("timestamp", ServerValue.TIMESTAMP);
 
-                    Map chatUserMap = new HashMap();
+                    //key - value .. vagyis . chat/userid/
+
+                    final Map chatUserMap = new HashMap();
                     chatUserMap.put("Chat/" + mCurrentUserId + "/" + mChatUserId,chatAddMap);
-                    chatUserMap.put("Chat/"  + mChatUserId + "/" + mCurrentUserId,chatAddMap);
+                    chatUserMap.put("Chat/" + mChatUserId + "/" + mCurrentUserId,chatAddMap);
 
                     mRootRef.updateChildren(chatUserMap, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                            Log.i("HASHMAP",chatUserMap.toString());
+
                             if(databaseError != null){
                                     //display errors
                                 Log.d("LOG_CHAT",databaseError.getMessage().toString());
@@ -198,6 +204,7 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("LOG_CHAT","CANCELED");
 
             }
         });
@@ -436,7 +443,7 @@ public class ChatActivity extends AppCompatActivity {
 
             Map messageMap = new HashMap();
             messageMap.put("message",message);
-            messageMap.put("seend",false);
+            messageMap.put("seen",false);
             messageMap.put("type","text");
             messageMap.put("time",ServerValue.TIMESTAMP);
             messageMap.put("from",mCurrentUserId);
