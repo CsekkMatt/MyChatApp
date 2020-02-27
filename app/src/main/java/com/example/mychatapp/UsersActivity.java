@@ -79,7 +79,7 @@ public class UsersActivity extends AppCompatActivity {
             @Override
             public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 // Create a new instance of the ViewHolder, in this case we are using a custom
-                // layout called R.layout.message for each item
+                // layout called R.layout.message for each ite
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.users_single, parent, false);
 

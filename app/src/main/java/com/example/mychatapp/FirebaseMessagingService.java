@@ -33,7 +33,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         }
         //Build foreground notification. with content of background notifications.
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,"default")
-                .setSmallIcon(R.drawable.notification_icon)
+                .setSmallIcon(R.drawable.common_google_signin_btn_icon_light)
                 .setContentTitle(notification_title)
                 .setContentText(notification_message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);

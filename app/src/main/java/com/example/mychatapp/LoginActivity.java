@@ -46,9 +46,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        mLoginBtn = (Button)findViewById(R.id.login_btn);
-        mLoginEmail = (TextInputEditText)findViewById(R.id.login_email);
-        mLoginPassword = (TextInputEditText)findViewById(R.id.login_password);
+        mLoginBtn = (Button) findViewById(R.id.login_btn);
+        mLoginEmail = (TextInputEditText) findViewById(R.id.login_email);
+        mLoginPassword = (TextInputEditText) findViewById(R.id.login_password);
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
         mToolbar = (Toolbar) findViewById(R.id.login_toolbar);
@@ -58,28 +58,28 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginProgressDialog = new ProgressDialog(this);
 
-      mLoginBtn.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              String email = mLoginEmail.getText().toString();
-              String password = mLoginPassword.getText().toString();
+        mLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = mLoginEmail.getText().toString();
+                String password = mLoginPassword.getText().toString();
 
-              if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password)){
-                  mLoginProgressDialog.setTitle("Logging In");
-                  mLoginProgressDialog.setMessage("Please wait while we check your credentials");
-                  mLoginProgressDialog.setCanceledOnTouchOutside(false);
-                  mLoginProgressDialog.show();
-                  loginUser(email,password);
-              }
-          }
-      });
+                if (!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password)) {
+                    mLoginProgressDialog.setTitle("Logging In");
+                    mLoginProgressDialog.setMessage("Please wait while we check your credentials");
+                    mLoginProgressDialog.setCanceledOnTouchOutside(false);
+                    mLoginProgressDialog.show();
+                    loginUser(email, password);
+                }
+            }
+        });
     }
 
-    private void loginUser(String email,String password) {
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    private void loginUser(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     mLoginProgressDialog.dismiss();
 
@@ -92,16 +92,16 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
 
-                            Intent loginIntent = new Intent(LoginActivity.this,MainActivity.class);
+                            Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                             loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(loginIntent);
                             finish();
                         }
                     });
 
-                }else{
+                } else {
                     mLoginProgressDialog.hide();
-                    Toast.makeText(LoginActivity.this,"Cannot sign in,Please check the form and try again.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Cannot sign in,Please check the form and try again.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
